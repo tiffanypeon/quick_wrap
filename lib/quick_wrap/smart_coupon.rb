@@ -1,4 +1,4 @@
-module  Jawb
+module  QuickWrap
   class SmartCoupon
     def self.promotion_params(deal)
       {

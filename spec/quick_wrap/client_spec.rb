@@ -1,10 +1,10 @@
 require 'spec_helper'
 require './spec/fixtures/deal.rb'
 
-describe Jawb::Client do
+describe QuickWrap::Client do
   let(:connection) { double(:http_connection) }
-  let(:client) { Jawb::Client.new environment: 'test' }
-  let(:config_keys) { Jawb::Configuration::VALID_CONFIG_KEYS }
+  let(:client) { QuickWrap::Client.new environment: 'test' }
+  let(:config_keys) { QuickWrap::Configuration::VALID_CONFIG_KEYS }
   let(:create_url) { '/api/v1/promotions'}
   let(:deal) { Deal.new }
 
@@ -19,13 +19,13 @@ describe Jawb::Client do
     context 'SmartCoupon' do
       it 'creates param structure' do
         connection.stub(:put)
-        expect(Jawb::SmartCoupon).to receive(:promotion_params).with(deal).and_return({})
+        expect(QuickWrap::SmartCoupon).to receive(:promotion_params).with(deal).and_return({})
         client.create_or_update(:smart_coupon, deal)
       end
 
       it 'calls post correctly' do
         params = { foo: 'bar' }
-        Jawb::SmartCoupon.stub(:promotion_params) { params }
+        QuickWrap::SmartCoupon.stub(:promotion_params) { params }
         expect(connection).to receive(:put).with(create_url)
         client.create_or_update(:smart_coupon, deal)
       end
@@ -34,7 +34,7 @@ describe Jawb::Client do
     it 'raises on unsupported promotion type' do
       expect {
         client.create_or_update(:foo, deal)
-      }.to raise_error Jawb::UnsupportedPromotionType
+      }.to raise_error QuickWrap::UnsupportedPromotionType
     end
   end
 

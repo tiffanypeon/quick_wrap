@@ -1,2 +1,2 @@
-require 'jawb'
+require 'quick_wrap'
 require 'rspec'

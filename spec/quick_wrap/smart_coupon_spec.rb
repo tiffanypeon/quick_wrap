@@ -1,9 +1,9 @@
 require 'spec_helper'
 require './spec/fixtures/deal.rb'
 
-describe Jawb::SmartCoupon do
+describe QuickWrap::SmartCoupon do
   let(:deal) { Deal.new }
-  let(:params) { Jawb::SmartCoupon.promotion_params(deal) }
+  let(:params) { QuickWrap::SmartCoupon.promotion_params(deal) }
   let(:account_params) { params[:account] }
   let(:promotion_params) { params[:promotion] }
 

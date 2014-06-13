@@ -1,13 +1,13 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'jawb/version'
+require 'QuickWrap/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "jawb"
-  spec.version       = Jawb::VERSION
-  spec.authors       = ["Dinshaw"]
-  spec.email         = ["dgobhai@constantcontact.com"]
+  spec.name          = "QuickWrap"
+  spec.version       = QuickWrap::VERSION
+  spec.authors       = ["Tiffany Peon"]
+  spec.email         = ["tpeon@constantcontact.com"]
   spec.summary       = %q{Ruby Wrapper for Beyond the List API}
   spec.homepage      = ""
   spec.license       = "MIT"

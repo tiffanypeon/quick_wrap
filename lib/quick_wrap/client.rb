@@ -1,6 +1,6 @@
 require 'faraday'
 require 'json'
-module  Jawb
+module  QuickWrap
   class Client
     PROMOTABLE_TYPES = [:smart_coupon]
 
@@ -11,7 +11,7 @@ module  Jawb
     def method_missing(name, *args, &block)
       response_body.has_key?(name.to_s) ? response_body[name.to_s] : super
     end
-    ##Jawb base that everything inherits from
+    ##QuickWrap base that everything inherits from
     ##for cacheing - move into a private method
     def response_body(force = false)
       force ? @response_body = get_response_body : @response_body ||= get_response_body
@@ -20,7 +20,7 @@ module  Jawb
     ## end ideas
 
     def initialize(options={})
-      merged_options = Jawb.options.merge(options)
+      merged_options = QuickWrap.options.merge(options)
       Configuration::VALID_CONFIG_KEYS.each do |key|
         send("#{key}=", merged_options[key])
       end

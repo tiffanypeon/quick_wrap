@@ -1,3 +1,3 @@
-module Jawb
+module QuickWrap
   VERSION = "0.0.1"
 end

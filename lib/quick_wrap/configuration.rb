@@ -1,4 +1,4 @@
-module Jawb
+module QuickWrap
   module Configuration
 
     def configure
@@ -10,7 +10,7 @@ module Jawb
     VALID_CONFIG_KEYS     = VALID_CONNECTION_KEYS + VALID_OPTIONS_KEYS
 
     DEFAULT_ENDPOINT      = 'your endpoint here'
-    DEFAULT_USER_AGENT    = "Jawb API Ruby Gem #{Jawb::VERSION}".freeze
+    DEFAULT_USER_AGENT    = "QuickWrap API Ruby Gem #{QuickWrap::VERSION}".freeze
 
     DEFAULT_FORMAT        = :json
 
