@@ -2,20 +2,19 @@ require 'faraday'
 require 'json'
 module  QuickWrap
   class Client
-    PROMOTABLE_TYPES = [:smart_coupon]
 
     attr_accessor *Configuration::VALID_CONFIG_KEYS
 
     ## ideas
     ##to intercept call on obj
-    def method_missing(name, *args, &block)
-      response_body.has_key?(name.to_s) ? response_body[name.to_s] : super
-    end
+    # def method_missing(name, *args, &block)
+    #   response_body.has_key?(name.to_s) ? response_body[name.to_s] : super
+    # end
     ##QuickWrap base that everything inherits from
     ##for cacheing - move into a private method
-    def response_body(force = false)
-      force ? @response_body = get_response_body : @response_body ||= get_response_body
-    end
+    # def response_body(force = false)
+    #   force ? @response_body = get_response_body : @response_body ||= get_response_body
+    # end
 
     ## end ideas
 
@@ -24,34 +23,19 @@ module  QuickWrap
       Configuration::VALID_CONFIG_KEYS.each do |key|
         send("#{key}=", merged_options[key])
       end
-      if environment.nil?
-        raise ConfigurationError.new '.environment must be one of [d1, l1, f1, stage, prod]!'
-      end
-    end
-
-    def connection
-      @connection ||= Faraday.new(:url => endpoint) do |faraday|
-        # faraday.headers['Content-Type'] = 'application/json'
-        # faraday.headers['Ctct-Environment'] = environment
-        # faraday.authorization :Token, authorization
-        faraday.adapter  :httpclient  # make requests with Net::HTTP
-      end
     end
 
     #Method types:
     ##simple:
     def get_thing(path)
-      path = '/endpoint.json'
       get(path)
     end
     ##path is constructed with arg
     def get_thing_with_id(path, id)
-      path = '/endpoint/#{id}.json'
-      get(path)
+      get("#{path}/#{id}")
     end
     ##requests with params
     def post_with_params(path, params={})
-      path = '/endpoint.json'
       post(path, params)
     end
 
@@ -72,13 +56,41 @@ module  QuickWrap
       request(:delete, path, params)
     end
 
-    def request(method, path, params = {})
-      res = connection.send(method, path) do |request|
-        request.body = JSON.generate(params) if params
+    private
+
+    def etag_opts(etag)
+      {
+        headers: { 'If-Match' => etag },
+        multipart: true
+      }
+
+    def connection(opts = {})
+      opts[:headers] ||= { 'Accept' => 'application/json' }
+
+      Faraday.new(url: endpoint) do |faraday|
+        faraday.headers = opts[:headers]
+        faraday.request :multipart if opts[:multipart]
+
+        faraday.authorization :Bearer, token
+        faraday.adapter  :httpclient  # make requests with Net::HTTP
+        faraday.request :url_encoded
       end
     end
 
-    private
+    ##== Setup autogenerate for new API token ==##
+    # def token
+    #   @token ||= YOURAPI::Token.new(token_params).token
+    # end
+
+    def request(method, path, params = {})
+      etag = params.delete(:etag)
+      opts = etag ? etag_opts(etag) : {}
+
+      response = connection.send(method, path) do |request|
+        request.params = params if method == :get
+        request.body = params if method == :post
+      end
+    end
 
   end
 

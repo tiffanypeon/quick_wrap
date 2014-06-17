@@ -16,7 +16,27 @@ Or install it yourself as:
 
 ## Usage
 
-    client = QuickWrap::Client.new authorization: 'your secret token', environment: 'stagegi'
+  1. Setting up your Configuration file:
+    - set types of keys and options for keys
+    - set endpoint
+    - set authorization type and environment if necessary
+
+  2. Understanding your connection and response setup
+    -etag definition and examples
+    -request headers/ multipart headers
+    -different between body and header params
+    -authorization tokens
+    -environment setup (if it seems frequent)
+    -faraday adapters and pros/cons
+    -faraday body request types (eg. url encoded)
+
+  3. Setting up your methods
+    -GETs, with ids/special paths
+    -POSTs, with params, etag matching, file uploads
+
+  4. Setting up error handling - basic recs
+
+  5. Parsing the response (method_missing thing here)
 
 ## Contributing
 

@@ -9,7 +9,7 @@ module QuickWrap
     VALID_OPTIONS_KEYS    = [:authorization, :format].freeze
     VALID_CONFIG_KEYS     = VALID_CONNECTION_KEYS + VALID_OPTIONS_KEYS
 
-    DEFAULT_ENDPOINT      = 'your endpoint here'
+    DEFAULT_ENDPOINT      = '/api/v1/promotions/'
     DEFAULT_USER_AGENT    = "QuickWrap API Ruby Gem #{QuickWrap::VERSION}".freeze
 
     DEFAULT_FORMAT        = :json
